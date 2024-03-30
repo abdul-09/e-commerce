@@ -3,7 +3,6 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail, EmailMessage
-from ecommerce.settings import EMAIL_HOST_USER
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -13,6 +12,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from ecommerce.apps.catalogue.models import Product
 from ecommerce.apps.orders.models import Order
 from ecommerce.apps.orders.views import user_orders
+from ecommerce.apps.basket.basket import Basket
 
 from .forms import RegistrationForm, UserAddressForm, UserEditForm
 from .models import Address, Customer
@@ -39,8 +39,9 @@ def add_to_wishlist(request, id):
 
 @login_required
 def dashboard(request):
+    basket = Basket
     orders = user_orders(request)
-    return render(request, "account/dashboard/dashboard.html", {"section": "profile", "orders": orders})
+    return render(request, "account/dashboard/dashboard.html", {"section": "profile", "orders": orders, "basket": basket})
 
 
 @login_required
@@ -50,6 +51,8 @@ def edit_details(request):
 
         if user_form.is_valid():
             user_form.save()
+        messages.success(request, "Successfully Updated the profile")
+        return redirect("account:dashboard")
     else:
         user_form = UserEditForm(instance=request.user)
 
@@ -123,12 +126,14 @@ def account_activate(request, uidb64, token):
 
 @login_required
 def view_address(request):
+    basket = Basket
     addresses = Address.objects.filter(customer=request.user)
-    return render(request, "account/dashboard/addresses.html", {"addresses": addresses})
+    return render(request, "account/dashboard/addresses.html", {"addresses": addresses, "basket": basket})
 
 
 @login_required
 def add_address(request):
+    basket = Basket
     if request.method == "POST":
         address_form = UserAddressForm(data=request.POST)
         if address_form.is_valid():
@@ -140,21 +145,22 @@ def add_address(request):
             return HttpResponse("Error handler content", status=400)
     else:
         address_form = UserAddressForm()
-    return render(request, "account/dashboard/edit_addresses.html", {"form": address_form})
+    return render(request, "account/dashboard/edit_addresses.html", {"form": address_form, "basket": basket})
 
 
 @login_required
 def edit_address(request, id):
+    basket = Basket
     if request.method == "POST":
         address = Address.objects.get(pk=id, customer=request.user)
         address_form = UserAddressForm(instance=address, data=request.POST)
         if address_form.is_valid():
             address_form.save()
-            return HttpResponseRedirect(reverse("account:addresses"))
+            return HttpResponseRedirect(reverse("checkout:delivery_address"))
     else:
         address = Address.objects.get(pk=id, customer=request.user)
         address_form = UserAddressForm(instance=address)
-    return render(request, "account/dashboard/edit_addresses.html", {"form": address_form})
+    return render(request, "account/dashboard/edit_addresses.html", {"form": address_form, "basket": basket})
 
 
 @login_required

@@ -37,7 +37,7 @@ function submitForm() {
    var form = document.getElementsByName('address_form')[0];
    form.submit(); // Submit the form
    form.reset();  // Reset all form data
-   location.href = '{% url 'checkout:delivery_address' %}';
+   {% comment %} window.location.href = '{% url 'checkout:delivery_address' %}'; {% endcomment %}
    return false; // Prevent page refresh
 }
 </script>

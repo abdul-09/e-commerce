@@ -95,7 +95,7 @@
   // Delete Item
   $(document).on("click", ".delete-button", function (e) {
     e.preventDefault();
-    var prodid = $(this).data("index");
+    var eleid = $(this).data("index");
     $.ajax({
       type: "POST",
       url: '{% url "basket:basket_delete" %}',
@@ -105,7 +105,7 @@
         action: "post",
       },
       success: function (json) {
-        $('.product-item[data-index="' + prodid + '"]').remove();
+        $('.product-item[data-index="' + eleid + '"]').remove();
 
         if (json.qty == 0) {
           total = 0
@@ -126,13 +126,13 @@
   // Update Item
   $(document).on("click", ".update-button", function (e) {
     e.preventDefault();
-    var prodid = $(this).data("index");
+    var eleid = $(this).data("index");
     $.ajax({
       type: "POST",
       url: '{% url "basket:basket_update" %}',
       data: {
         productid: $(this).data("index"),
-        productqty: $("#select" + prodid + " option:selected").text(),
+        productqty: $("#select" + eleid + " option:selected").text(),
         csrfmiddlewaretoken: "{{csrf_token}}",
         action: "post",
       },
