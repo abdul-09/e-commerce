@@ -7,7 +7,7 @@ This is an e-commerce web app about Automobile Parts.This project is built upon 
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Screenshot (79)](https://github.com/abdul-09/e-commerce/assets/114946911/4e720ade-1869-4ee3-96ee-4972e2b8e559)
 
 
 ## Installation
