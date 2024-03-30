@@ -71,11 +71,11 @@ TEMPLATES = [
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "ecommerce",
-        "HOST":'127.0.0.1',
-        "PORT": 3306,
-        "USER": 'root',
-        "PASSWORD": 'Benyo0310',
+        'HOST': os.environ.get('MYSQL_HOST'),
+        'PORT': os.environ.get('MYSQL_PORT'),
+        'USER': os.environ.get('MYSQL_USER'),
+        'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
+        'NAME': os.environ.get('MYSQL_DATABASE'),
 
     }
 }
