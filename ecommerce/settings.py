@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "ecommerce.apps.checkout",
     "ecommerce.apps.basket",
     "ecommerce.apps.orders",
+    "ecommerce.apps.coupons",
     "mptt",
 ]
 

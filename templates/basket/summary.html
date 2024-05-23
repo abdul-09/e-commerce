@@ -37,12 +37,16 @@
         </div>
       </div>
       <div class="text-end">
+        {% if basket.coupon %}
         <div class="">Sub Total: <span class="fw-bold">£</span>
           <div id="subtotal" class="d-inline-flex fw-bold">{{basket.get_subtotal_price}}</div>
         </div>
+        <div id="">{{basket.coupon.code}} coupon: <span class="fw-bold">{{basket.coupon.discount}}% off</span></div>
+        <div id="">-${{basket.get_discount|floatformat:2}}</div>
+        {% endif %}
         <div id="">Shipping <span class="small">(Next day delivery)</span>: <span class="fw-bold">£11.50</span></div>
         <div class="pt-2">Total to pay: <span class="fw-bold h5">£</span><span id="total"
-            class="fw-bold h5">{{basket.get_total_price}}</span></div>
+            class="fw-bold h5">{{basket.get_total_price_after_discount}}</span></div>
       </div>
     </div>
     <div class="col-md-5 col-lg-4 order-md-last p-0 order-3">

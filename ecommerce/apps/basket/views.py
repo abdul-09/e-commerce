@@ -1,13 +1,15 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from ecommerce.apps.catalogue.models import Product
+from ecommerce.apps.coupons.forms import CouponApplyForm
 
 from .basket import Basket
 
 
 def basket_summary(request):
     basket = Basket(request)
-    return render(request, "basket/summary.html", {"basket": basket})
+    coupon_apply_form = CouponApplyForm()
+    return render(request, "basket/summary.html", {"basket": basket, "coupon_apply_form": coupon_apply_form})
 
 
 def basket_add(request):
