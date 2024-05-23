@@ -33,9 +33,17 @@ py manage.py runserver
 - E-banking
 - Mobile responsive
 
+## Features under development
+
+- Globalization
+- Coupon system
+- Search Functionality
+- Reviewing functionality
 
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
+## Project Status:
+Active development and maintenance. Check the project repository for the latest updates and releases.
