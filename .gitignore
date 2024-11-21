@@ -6,3 +6,4 @@ env
 .coverage
 .coveragerc
 /static
+.env

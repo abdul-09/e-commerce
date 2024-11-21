@@ -1,25 +1,26 @@
 import os
 import dj_database_url
+from decouple import config
 
 from pathlib import Path
-from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(os.path.join(BASE_DIR/".eVar", '.env'))
+
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
+DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ["127.0.0.1", 'localhost']
-ALLOWED_HOSTS += os.environ.get('ALLOWED_HOSTS', []).split()
+ALLOWED_HOSTS = ["*"]
+
 
 
 # Application definition
@@ -74,10 +75,14 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         default="sqlite:///" + os.path.join(BASE_DIR, "db.sqlite")
+#     )
+# }
+
 DATABASES = {
-    "default": dj_database_url.config(
-        default="sqlite:///" + os.path.join(BASE_DIR, "db.sqlite")
-    )
+    "default": dj_database_url.parse(config("DATABASE_URL"))
 }
 
 
@@ -113,14 +118,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-STATIC_URL = "/static/"
+STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-MEDIA_URL = "/media/"
+MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 # Basket session ID
@@ -134,12 +138,11 @@ LOGIN_URL = "/account/login/"
 # Email setting
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'abdulazizhussein4563@gmail.com'
-EMAIL_HOST_PASSWORD = 'dfrthjmeljnqduho'
-EMAIL_PORT = 587  # Use port 587 for TLS/STARTTLS
-EMAIL_USE_TLS = True  # Use TLS (Transport Layer Security)
-EMAIL_USE_SSL = False
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 
 
